@@ -56,6 +56,9 @@ function init() {
   spotlight_02.position.z = -10;
 
   var renderer = new THREE.WebGLRenderer();
+  // enabling shadow
+  renderer.shadowMap.enabled = true;
+
   // set size of output image:
   renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -78,7 +81,8 @@ function getSphere(radius, hexColor) {
   });
 
   var sphere = new THREE.Mesh(geometry, material);
-
+  // tell sphere to cast shadows:
+  sphere.castShadow = true;
   return sphere;
 }
 
@@ -90,14 +94,16 @@ function getPlane(width, height, hexColor) {
   });
 
   var plane = new THREE.Mesh(geometry, material);
-
+  // tell the plane to receive shadows
+  plane.receiveShadow = true;
   return plane;
 }
 
 // For Mesh materials other than Basic whe need to define a light source
 function getSpotlight(color, intensity) {
   var light = new THREE.SpotLight(color, intensity);
-
+  //tell light to cast shadows:
+  light.castShadow = true;
   return light;
 }
 // recursive update function:
