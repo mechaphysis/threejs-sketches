@@ -96,14 +96,25 @@ function getPlane(width, height, hexColor) {
   var plane = new THREE.Mesh(geometry, material);
   // tell the plane to receive shadows
   plane.receiveShadow = true;
+
+  // increase roughtness of the material:
+  plane.material.roughness = 0.65;
+  plane.material.metalness = 0.75;
   return plane;
 }
 
 // For Mesh materials other than Basic whe need to define a light source
 function getSpotlight(color, intensity) {
   var light = new THREE.SpotLight(color, intensity);
+
   //tell light to cast shadows:
+
   light.castShadow = true;
+
+  //increase shadow resolutions:
+
+  light.shadow.mapSize.x = 4096;
+  light.shadow.mapSize.y = 4096;
   return light;
 }
 // recursive update function:
