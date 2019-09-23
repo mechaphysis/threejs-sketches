@@ -22,9 +22,9 @@ function init() {
   sphere.name = "animatedSphere";
 
   var plane = getPlane(50, 50, 0x00ff00);
-
   scene.add(plane);
   plane.rotation.x = Math.PI / 2;
+
   /**
    * at this point we still don't see anything in the screen.
    * This is because three.js by default places new added objects into
@@ -33,13 +33,27 @@ function init() {
    * We have to move either of them in order for the sphere to be visible
    *  */
   camera.position.x = 0;
-  camera.position.y = 5;
-  camera.position.z = 20;
+  camera.position.y = 6;
+  camera.position.z = 6;
   /**
    * Pass a vector of coordinates for the camera to look at.
    * we gonna pass the coordinates of the sphere (0,0,0)
    */
   camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+  //Add spotlight:
+  var spotlight_01 = getSpotlight(0xffffff, 1);
+  scene.add(spotlight_01);
+  var spotlight_02 = getSpotlight(0xffffff, 1);
+  scene.add(spotlight_02);
+
+  spotlight_01.position.x = 6;
+  spotlight_01.position.y = 8;
+  spotlight_01.position.z = -20;
+
+  spotlight_02.position.x = -12;
+  spotlight_02.position.y = 6;
+  spotlight_02.position.z = -10;
 
   var renderer = new THREE.WebGLRenderer();
   // set size of output image:
@@ -59,7 +73,7 @@ function init() {
  */
 function getSphere(radius, hexColor) {
   var geometry = new THREE.SphereGeometry(radius, 24, 24);
-  var material = new THREE.MeshBasicMaterial({
+  var material = new THREE.MeshStandardMaterial({
     color: hexColor
   });
 
@@ -70,7 +84,7 @@ function getSphere(radius, hexColor) {
 
 function getPlane(width, height, hexColor) {
   var geometry = new THREE.PlaneGeometry(width, height);
-  var material = new THREE.MeshBasicMaterial({
+  var material = new THREE.MeshStandardMaterial({
     color: hexColor,
     side: THREE.DoubleSide
   });
@@ -80,8 +94,13 @@ function getPlane(width, height, hexColor) {
   return plane;
 }
 
-// recursive update function:
+// For Mesh materials other than Basic whe need to define a light source
+function getSpotlight(color, intensity) {
+  var light = new THREE.SpotLight(color, intensity);
 
+  return light;
+}
+// recursive update function:
 function update(renderer, scene, camera) {
   renderer.render(scene, camera);
 
