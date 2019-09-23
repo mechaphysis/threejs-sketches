@@ -48,7 +48,8 @@ function init() {
   // append the renderer dom element to the empty div created in index.html:
   document.getElementById("webgl").appendChild(renderer.domElement);
 
-  renderer.render(scene, camera);
+  renderer.render(scene, camera); // static
+  //update(renderer, scene, camera); // animated
 }
 
 /**
@@ -84,6 +85,10 @@ function getPlane(width, height, hexColor) {
 function update(renderer, scene, camera) {
   renderer.render(scene, camera);
 
+  var sphere = scene.getObjectByName("animatedSphere");
+
+  sphere.scale.x += 0.01;
+  sphere.scale.y += 0.01;
   requestAnimationFrame(function() {
     update(renderer, scene, camera);
   });
